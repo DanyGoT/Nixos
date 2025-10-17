@@ -13,6 +13,11 @@ vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-z>', '<Nop>')
 
+-- Save/exit shortcuts
+vim.keymap.set('n', '<leader>w', ':w<CR>', { desc = 'Save file' })
+vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'Quit Neovim' })
+
+
 -- Split resizing (using Alt + arrow keys since they're intuitive for resizing)
 vim.keymap.set('n', '<A-Up>', ':resize -5<CR>', { silent = true, desc = 'Increase height' })
 vim.keymap.set('n', '<A-Down>', ':resize +5<CR>', { silent = true, desc = 'Decrease height' })

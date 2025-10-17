@@ -23,11 +23,11 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings.General.Experimental = true;
-  };
+  # hardware.bluetooth = {
+  #   enable = true;
+  #   powerOnBoot = true;
+  #   settings.General.Experimental = true;
+  # };
 
   # Set your time zone.
   time.timeZone = "Europe/Oslo";
@@ -48,7 +48,7 @@
   users.users.dany = {
     isNormalUser = true;
     description = "Dany";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
     shell = pkgs.zsh;
   };
@@ -89,6 +89,11 @@
     lazygit
 
 
+    ###
+    nodejs
+    docker
+    docker-compose
+    ###
 
 
     vscode
@@ -109,6 +114,8 @@
     gimp
     libreoffice
     wget
+
+    kitty # required for the default Hyprland config
   ];
   fonts = {
     fontconfig.enable = true;
@@ -117,12 +124,15 @@
     ];
   };
 
+  virtualisation.docker.enable = true;
+
   programs.git = {
     enable = true;
   config = {
       pull.rebase = true;
     };
   };
+  programs.hyprland.enable = true;
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
