@@ -136,7 +136,7 @@ Plus comprehensive hints for types, parameters, and values.
    - Current parameter should be highlighted
 
 ## Neovim Requirements
-- Neovim 0.10+ (for `vim.lsp.enable()`)
+- Neovim 0.11+ (for `vim.lsp.enable()`)
 - Language servers installed (gopls, lua-language-server, etc.)
 
 ## First Use
