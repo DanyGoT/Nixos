@@ -1,13 +1,4 @@
--- Setup LSP capabilities with nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
--- Safely get cmp_nvim_lsp capabilities if available
-local has_cmp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if has_cmp then
-  capabilities = vim.tbl_deep_extend('force', capabilities, cmp_nvim_lsp.default_capabilities())
-end
-
--- Enable LSP servers with enhanced capabilities
+-- Enable LSP servers
 vim.lsp.enable({ 'luals', 'typescript-language-server', 'gopls', 'pylsp', 'csharp-ls' })
 
 -- Set completeopt for better completion experience with nvim-cmp
@@ -25,11 +16,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    
-    -- Update client capabilities with nvim-cmp if not already set
-    if has_cmp and client.server_capabilities then
-      client.server_capabilities = vim.tbl_deep_extend('force', client.server_capabilities, capabilities)
-    end
     
     if client:supports_method('textDocument/implementation') then
       -- Create a keymap for vim.lsp.buf.implementation ...
