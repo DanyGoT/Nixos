@@ -3,11 +3,6 @@ vim.g.mapleader = ' '
 -- Keymap for å åpne oil
 vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 
--- Manual keybind to activate LSP completion
-vim.keymap.set('i', '<c-space>', function()
-  vim.lsp.completion.get()
-end)
-
 -- Better indent dany spesial
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
