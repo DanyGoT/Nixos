@@ -92,7 +92,8 @@ Plus comprehensive hints for types, parameters, and values.
 - Floating window with function signature (auto-closes after 3 seconds)
 - Highlighted current parameter
 - Type information for each parameter
-- Manual toggle with `<C-k>` for on-demand help
+- Appears automatically when typing function parameters
+- Press `<C-s>` to hide the window (will reappear on next function call)
 - Virtual text hints disabled for less visual intrusion
 
 ## Key Mappings
@@ -105,7 +106,9 @@ Plus comprehensive hints for types, parameters, and values.
 - `<C-e>` - Close menu
 
 ### Signature Help
-- `<C-k>` - Show signature help
+- Appears automatically when typing function parameters
+- `<C-s>` - Hide signature help window (will reappear on next function call)
+- Auto-closes after 3 seconds of inactivity
 
 ### Snippets
 - `<C-l>` - Next placeholder

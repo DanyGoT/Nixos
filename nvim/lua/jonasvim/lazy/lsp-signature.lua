@@ -32,6 +32,9 @@ return {
       -- Highlight parameter
       hi_parameter = "LspSignatureActiveParameter",
 
+      -- Toggle key to hide/show signature help
+      toggle_key = '<C-s>', -- Use Ctrl+s to hide signature help window
+
       -- Timer settings
       timer_interval = 200, -- Refresh every 200ms
 
