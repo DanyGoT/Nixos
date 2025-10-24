@@ -9,7 +9,25 @@ vim.o.winborder = 'rounded'
 
 -- Configure LSP handlers with borders
 local border = 'rounded'
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+
+-- Custom hover handler that sets conceallevel for proper markdown rendering
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = border,
+  -- Ensure conceallevel is set to 1 in hover window for markdown rendering
+  focusable = true,
+})
+
+-- Override the hover handler to set conceallevel in the floating window
+local original_hover_handler = vim.lsp.handlers['textDocument/hover']
+vim.lsp.handlers['textDocument/hover'] = function(...)
+  local bufnr, winnr = original_hover_handler(...)
+  if winnr then
+    -- Set conceallevel to 1 in the hover window for proper markdown rendering
+    vim.api.nvim_set_option_value('conceallevel', 1, { win = winnr })
+  end
+  return bufnr, winnr
+end
+
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
 
 vim.api.nvim_create_autocmd('LspAttach', {
