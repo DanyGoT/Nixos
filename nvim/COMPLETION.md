@@ -25,7 +25,7 @@ The completion system has been upgraded to use **nvim-cmp** with enhanced fuzzy 
 - Shows function signature in a floating window when typing
 - Highlights the current parameter you're filling in
 - Auto-closes after 3 seconds of inactivity to avoid clutter
-- Manual toggle with `<C-k>` for on-demand help
+- Appears automatically when inside function calls
 - Virtual text hints disabled for less visual intrusion
 
 ### 4. LSP Enhancements
@@ -50,8 +50,8 @@ The completion system has been upgraded to use **nvim-cmp** with enhanced fuzzy 
 - `<C-b>` / `<C-f>` - Scroll documentation up/down
 
 ### Signature Help
-- `<C-k>` - Manually show signature help (in insert mode)
 - Automatically shows when typing function parameters
+- Auto-closes after 3 seconds of inactivity
 
 ### Snippets
 - `<C-l>` - Jump to next snippet placeholder
