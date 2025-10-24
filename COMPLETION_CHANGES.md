@@ -72,7 +72,7 @@ Sources prioritized: LSP (1000) > Snippets (750) > Buffer (500) > Path (250)
 **After:** 
 - Auto-triggers after 1 character
 - Non-intrusive - shows menu without forcing selection
-- Ghost text preview of first completion
+- No ghost text to keep interface clean
 - Manual trigger available with `<C-Space>`
 - Buffer completion only after 3 characters to avoid noise
 
@@ -82,18 +82,18 @@ Sources prioritized: LSP (1000) > Snippets (750) > Buffer (500) > Path (250)
 ```lua
 completeUnimported = true,  -- Suggests packages before importing
 deepCompletion = true,      -- Better nested structure suggestions
-usePlaceholders = true,     -- Shows parameter placeholders
+usePlaceholders = false,    -- Disabled - type your own variable names
 ```
 Plus comprehensive hints for types, parameters, and values.
 
 ### ✅ 5. Parameter Hints
 **Before:** No parameter hints
 **After:** `lsp_signature.nvim` provides:
-- Floating window with function signature
+- Floating window with function signature (auto-closes after 3 seconds)
 - Highlighted current parameter
 - Type information for each parameter
-- Similar to VSCode's experience
-- Manual trigger with `<C-k>` in insert mode
+- Manual toggle with `<C-k>` for on-demand help
+- Virtual text hints disabled for less visual intrusion
 
 ## Key Mappings
 

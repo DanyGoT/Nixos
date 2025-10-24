@@ -22,17 +22,18 @@ The completion system has been upgraded to use **nvim-cmp** with enhanced fuzzy 
 4. **Path** - File system paths
 
 ### 3. Signature Help (Parameter Hints)
-- Shows function signature with parameter information while typing
+- Shows function signature in a floating window when typing
 - Highlights the current parameter you're filling in
-- Similar to VSCode's parameter hints
-- Automatically appears when inside function calls
+- Auto-closes after 3 seconds of inactivity to avoid clutter
+- Manual toggle with `<C-k>` for on-demand help
+- Virtual text hints disabled for less visual intrusion
 
 ### 4. LSP Enhancements
 
 #### Go (gopls)
 - **completeUnimported**: Suggests packages before you import them
 - **deepCompletion**: Better suggestions for nested structures
-- **usePlaceholders**: Shows parameter placeholders in completions
+- **usePlaceholders**: Disabled - allows you to type your own variable names
 - Comprehensive hints for types, parameters, and values
 - Static analysis enabled for better code intelligence
 
@@ -64,9 +65,6 @@ Each completion item shows:
 - **Kind** - Type of item (Method, Function, Variable, etc.)
 - **Source** - Where the completion came from ([LSP], [Buffer], [Path], [Snippet])
 
-## Ghost Text
-The first completion suggestion shows as ghost text (grayed out) before you confirm it, giving you a preview.
-
 ## Behavior
 
 ### Non-Disruptive Completion
@@ -74,6 +72,7 @@ The first completion suggestion shows as ghost text (grayed out) before you conf
 - Menu shows without forcing a selection
 - Won't interrupt your typing flow
 - Press Escape or continue typing to dismiss
+- No ghost text preview to keep the interface clean
 
 ### Context-Aware
 - LSP provides context from your project structure

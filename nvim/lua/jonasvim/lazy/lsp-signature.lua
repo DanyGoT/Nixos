@@ -6,15 +6,15 @@ return {
       -- Show function signature when you type
       bind = true,
       
-      -- Floating window settings
+      -- Floating window settings - show above cursor line for less disruption
       floating_window = true,
       floating_window_above_cur_line = true,
       floating_window_off_x = 1,
       floating_window_off_y = 0,
       
-      -- Hint settings
-      hint_enable = true, -- Virtual hint text
-      hint_prefix = "🐼 ", -- Prefix for hint text
+      -- Hint settings - DISABLED for less intrusion
+      hint_enable = false, -- Disabled: virtual text with panda emoji is too intrusive
+      hint_prefix = "", -- No prefix needed since hints are disabled
       hint_scheme = "String",
       
       -- UI improvements
@@ -22,9 +22,9 @@ return {
         border = "rounded",
       },
       
-      -- Always show signature help
-      always_trigger = false, -- Not too disruptive
-      auto_close_after = nil, -- Keep it open
+      -- Less disruptive settings
+      always_trigger = false, -- Only show when manually triggered or in specific contexts
+      auto_close_after = 3, -- Auto-close after 3 seconds of no activity
       
       -- Extra trigger characters
       extra_trigger_chars = {},
@@ -32,8 +32,8 @@ return {
       -- Highlight parameter
       hi_parameter = "LspSignatureActiveParameter",
       
-      -- Use toggle to show/hide signature help
-      toggle_key = nil, -- Can set to '<C-k>' if needed
+      -- Manual toggle key
+      toggle_key = '<C-k>', -- Use Ctrl+k to manually show/hide signature help
       
       -- Timer settings
       timer_interval = 200, -- Refresh every 200ms

@@ -149,7 +149,7 @@ return {
       
       -- Experimental features
       experimental = {
-        ghost_text = true, -- Show ghost text for first completion item
+        ghost_text = false, -- Disabled: too intrusive
       },
     })
   end,

@@ -18,7 +18,7 @@ return {
     gopls = {
       -- Better completion settings
       completeUnimported = true, -- Suggest unimported packages
-      usePlaceholders = true, -- Use placeholders for function parameters
+      usePlaceholders = false, -- Don't use placeholders - let user type their own variables
       deepCompletion = true, -- Enable deep completion
       
       -- Improve analysis for better suggestions
