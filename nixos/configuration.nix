@@ -60,6 +60,14 @@
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+
+  #### Temporary
+  security.pki.certificates = [
+    (builtins.readFile "/home/dany/.local/share/mkcert/rootCA.pem")
+  ];
+  ####
+
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -81,13 +89,18 @@
 
 
 
-
+    ###
     fzf
     zoxide
     ripgrep
     stow
     lazygit
+    ###
 
+    ###
+    openssl
+    mkcert
+    ###
 
     ###
     nodejs
