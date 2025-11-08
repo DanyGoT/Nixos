@@ -1,0 +1,26 @@
+-- return {
+--   cmd = { 'texlab' },
+--   filetypes = { 'tex', 'bib' }, -- Added .bib for bibliography files
+--   root_markers = {
+--     '.git',
+--     '.latexmkrc', -- Common LaTeX project marker
+--   },
+--   settings = {
+--     texlab = {
+--       build = {
+--         executable = 'latexmk',
+--         args = { '-pdf', '-interaction=nonstopmode', '-synctex=1', '%f' },
+--         onSave = true, -- Build on save
+--       },
+--       forwardSearch = {
+--         -- Optional: configure PDF viewer for synctex
+--         -- executable = 'zathura',
+--         -- args = { '--synctex-forward', '%l:1:%f', '%p' },
+--       },
+--       chktex = { -- linting
+--         onEdit = true,
+--         onOpenAndSave = true,
+--       },
+--     },
+--   },
+-- }

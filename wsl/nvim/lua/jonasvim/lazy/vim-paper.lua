@@ -1,0 +1,3 @@
+return {
+  'yorickpeterse/vim-paper'
+}
