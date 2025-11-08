@@ -1,50 +1,56 @@
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# your system. Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running 'nixos-help').
 
 { config, pkgs, ... }:
 
+let
+  gcloud = pkgs.google-cloud-sdk.withExtraComponents (with pkgs.google-cloud-sdk.components; [
+    gke-gcloud-auth-plugin
+  ]);
+in
+
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  # ===== BOOT =====
+  boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    efiSupport = true;
+    useOSProber = true;
+    timeout = null;
+    configurationLimit = 3;
+    extraEntries = ''
+      menuenry "Windows" {
+        insmod chain
+        set root=(hd0,1)
+        chainloader +1
+      }
+    '';
+    theme="/boot/grub/themes/Minimal/NIXOS";
+  };
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  # ===== NETWORKING =====
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  # hardware.bluetooth = {
-  #   enable = true;
-  #   powerOnBoot = true;
-  #   settings.General.Experimental = true;
-  # };
 
-  # Set your time zone.
+  # ===== LOCALIZATION =====
   time.timeZone = "Europe/Oslo";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Configure keymap in X11
+  # ===== KEYMAP =====
   services.xserver.xkb = {
     layout = "no";
     variant = "nodeadkeys";
   };
-
-  # Configure console keymap
   console.keyMap = "no";
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # ===== USER CONFIGURATION =====
   users.users.dany = {
     isNormalUser = true;
     description = "Dany";
@@ -53,27 +59,26 @@
     shell = pkgs.zsh;
   };
 
-  # Enable automatic login for the user.
   services.getty.autologinUser = "dany";
 
-  # Allow unfree packages
+  # ===== NIX CONFIGURATION =====
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-
-  #### Temporary
+  # ===== TEMPORARY: Custom CA Certificates =====
+  # TODO: Remove this once mkcert certificates are no longer needed
   security.pki.certificates = [
     (builtins.readFile "/home/dany/.local/share/mkcert/rootCA.pem")
   ];
-  ####
 
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # ===== SYSTEM PACKAGES =====
   environment.systemPackages = with pkgs; [
+    # Editor and build tools
     neovim
     gcc
     gnumake
+    
+    # Language servers and runtimes
     lua51Packages.luarocks
     lua51Packages.lua
     lua-language-server
@@ -84,52 +89,50 @@
     go
     gopls
     typescript-language-server
+    nodejs
     python3Full
     python313Packages.python-lsp-server
 
-
-
-    ###
+    # CLI utilities
     fzf
     zoxide
     ripgrep
     stow
     lazygit
-    ###
-
-    ###
+    wget
+    claude-code
+    
+    # Security and DevOps tools
     openssl
     mkcert
-    ###
-
-    ###
-    nodejs
+    kubectl
+    gcloud
     docker
     docker-compose
-    ###
-
-
-    vscode
-    chromium
-    google-chrome
-    discord
-    teams-for-linux
+    
+    # Wayland/Sway environment
     sway
     ghostty
+    kitty  # Required for default Hyprland config
     fuzzel
     grim
     slurp
     mako
     wl-clipboard
     brightnessctl
+    tmux
     
+    # Desktop applications
+    vscode
+    google-chrome
+    discord
+    teams-for-linux
     postgresql
     gimp
     libreoffice
-    wget
-
-    kitty # required for the default Hyprland config
   ];
+
+  # ===== FONTS =====
   fonts = {
     fontconfig.enable = true;
     packages = with pkgs; [
@@ -137,20 +140,26 @@
     ];
   };
 
+  # ===== VIRTUALISATION =====
   virtualisation.docker.enable = true;
 
+  # ===== PROGRAM CONFIGURATION =====
   programs.git = {
     enable = true;
-  config = {
+    config = {
       pull.rebase = true;
     };
   };
+
   programs.hyprland.enable = true;
+
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
   };
+
   programs.light.enable = true;
+
   programs.zsh = {
     enable = true;
     ohMyZsh = {
@@ -158,35 +167,33 @@
       theme = "robbyrussell";
     };
   };
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
   };
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.sessionVariables.EDITOR = "nvim";
-  environment.sessionVariables.VISUAL = "nvim";
+  # ===== ENVIRONMENT VARIABLES =====
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  # ===== SERVICES =====
   services.gnome.gnome-keyring.enable = true;
   services.seatd.enable = true;
   services.blueman.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # Disable default key actions for power buttons
+  services.logind = {
+    rebootKey = "ignore";
+    suspendKey = "ignore";
+    hibernateKey = "ignore";
+  };
 
+  # ===== SYSTEM VERSION =====
   # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
-
+  # settings for stateful data were taken. Don't change this value.
+  system.stateVersion = "25.05";
 }
