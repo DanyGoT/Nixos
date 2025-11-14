@@ -110,8 +110,12 @@ in
     docker
     docker-compose
     
-    # Wayland/Sway environment
+
+
+    # Wayland/Sway/Niri environment
+    niri
     sway
+    waybar
     ghostty
     kitty  # Required for default Hyprland config
     fuzzel
