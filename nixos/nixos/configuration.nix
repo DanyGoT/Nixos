@@ -116,6 +116,7 @@ in
     niri
     sway
     waybar
+    hyprland
     ghostty
     kitty  # Required for default Hyprland config
     fuzzel
@@ -125,6 +126,7 @@ in
     wl-clipboard
     brightnessctl
     tmux
+    xwayland-satellite
     
     # Desktop applications
     vscode
@@ -134,6 +136,12 @@ in
     postgresql
     gimp
     libreoffice
+
+    # Audio
+    pavucontrol # PulseAudio Volume Control
+    pamixer # Command-line mixer for PulseAudio
+    bluez # Bluetooth support
+    bluez-tools # Bluetooth tools
   ];
 
   # ===== FONTS =====
@@ -155,8 +163,9 @@ in
     };
   };
 
-  programs.hyprland.enable = true;
-
+  # programs.hyprland.enable = true;
+  # programs.niri.enable = true;
+  # programs.waybar.enable = true;
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -188,6 +197,22 @@ in
   services.gnome.gnome-keyring.enable = true;
   services.seatd.enable = true;
   services.blueman.enable = true;
+  # services.pipewire.wireplumber.enable = false;
+  # Enable sound system
+
+# Use PipeWire for audio
+  hardware.pulseaudio.enable = false; # Use Pipewire, the modern sound subsystem
+
+  security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # Uncomment the following line if you want to use JACK applications
+    # jack.enable = true;
+  };
 
   # Disable default key actions for power buttons
   services.logind = {
