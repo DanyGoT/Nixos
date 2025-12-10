@@ -4,12 +4,6 @@
 
 { config, pkgs, ... }:
 
-let
-  gcloud = pkgs.google-cloud-sdk.withExtraComponents (with pkgs.google-cloud-sdk.components; [
-    gke-gcloud-auth-plugin
-  ]);
-in
-
 {
   imports = [
     ./hardware-configuration.nix
@@ -23,7 +17,6 @@ in
     device = "nodev";
     efiSupport = true;
     useOSProber = true;
-    timeout = null;
     configurationLimit = 3;
     extraEntries = ''
       menuenry "Windows" {
@@ -34,6 +27,7 @@ in
     '';
     theme="/boot/grub/themes/Minimal/NIXOS";
   };
+  boot.loader.timeout = null;
 
   # ===== NETWORKING =====
   networking.hostName = "nixos";
@@ -42,13 +36,16 @@ in
   # ===== LOCALIZATION =====
   time.timeZone = "Europe/Oslo";
   i18n.defaultLocale = "en_US.UTF-8";
-
   # ===== KEYMAP =====
   services.xserver.xkb = {
     layout = "no";
-    variant = "nodeadkeys";
+    variant = "";
   };
   console.keyMap = "no";
+  
+  environment.variables = {
+    GTK_IM_MODULE = "simple";
+  };
 
   # ===== USER CONFIGURATION =====
   users.users.dany = {
@@ -65,11 +62,7 @@ in
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # ===== TEMPORARY: Custom CA Certificates =====
-  # TODO: Remove this once mkcert certificates are no longer needed
-  security.pki.certificates = [
-    (builtins.readFile "/home/dany/.local/share/mkcert/rootCA.pem")
-  ];
+  # services.xserver.enable = true;
 
   # ===== SYSTEM PACKAGES =====
   environment.systemPackages = with pkgs; [
@@ -82,7 +75,7 @@ in
     lua51Packages.luarocks
     lua51Packages.lua
     lua-language-server
-    elixir
+    # elixir
     csharp-ls
     dotnet-sdk_9
     dotnet-ef
@@ -90,8 +83,9 @@ in
     gopls
     typescript-language-server
     nodejs
-    python3Full
-    python313Packages.python-lsp-server
+    python3
+    # python3Full
+    # python313Packages.python-lsp-server
 
     # CLI utilities
     fzf
@@ -101,12 +95,14 @@ in
     lazygit
     wget
     claude-code
+    jq
+    asciinema # record terminal and create gifs https://github.com/asciinema/asciinema
     
     # Security and DevOps tools
-    openssl
-    mkcert
-    kubectl
-    gcloud
+    # openssl
+    # mkcert
+    # kubectl
+    # gcloud
     docker
     docker-compose
     
@@ -127,10 +123,14 @@ in
     brightnessctl
     tmux
     xwayland-satellite
+
+    # Cursor
+    bibata-cursors
     
     # Desktop applications
     vscode
-    google-chrome
+    # google-chrome
+    brave
     discord
     teams-for-linux
     postgresql
@@ -140,15 +140,17 @@ in
     # Audio
     pavucontrol # PulseAudio Volume Control
     pamixer # Command-line mixer for PulseAudio
-    bluez # Bluetooth support
-    bluez-tools # Bluetooth tools
+    # bluez # Bluetooth support
+    # bluez-tools # Bluetooth tools
   ];
 
   # ===== FONTS =====
   fonts = {
+    fontDir.enable = true;
     fontconfig.enable = true;
     packages = with pkgs; [
       _0xproto
+      font-awesome
     ];
   };
 
@@ -191,27 +193,28 @@ in
     NIXOS_OZONE_WL = "1";
     EDITOR = "nvim";
     VISUAL = "nvim";
+    XCURSOR_THEME = "Bibata-Modern-Cursors";
+    XCURSOR_SIZE = "24";
   };
 
   # ===== SERVICES =====
   services.gnome.gnome-keyring.enable = true;
   services.seatd.enable = true;
-  services.blueman.enable = true;
+  # services.blueman.enable = true;
   # services.pipewire.wireplumber.enable = false;
   # Enable sound system
 
 # Use PipeWire for audio
-  hardware.pulseaudio.enable = false; # Use Pipewire, the modern sound subsystem
+  services.pulseaudio.enable = false; # Use Pipewire, the modern sound subsystem
 
   security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
 
   services.pipewire = {
     enable = true;
+    # wireplumber.enable = false;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # Uncomment the following line if you want to use JACK applications
-    # jack.enable = true;
   };
 
   # Disable default key actions for power buttons
@@ -219,6 +222,9 @@ in
     rebootKey = "ignore";
     suspendKey = "ignore";
     hibernateKey = "ignore";
+    lidSwitch = "suspend";
+    lidSwitchDocked = "suspend";
+    lidSwitchExternalPower = "suspend";
   };
 
   # ===== SYSTEM VERSION =====
