@@ -45,6 +45,9 @@ input type:touchpad {
 output eDP-1 bg /home/dany/dotfiles/nixos/sway/backgrounds/Background_1920x1080.png fill
 output HDMI-A-1 bg /home/dany/dotfiles/nixos/sway/backgrounds/Background_3840x1080.png fill
 
+exec_always sleep 2 && ~/.config/sway/scripts/dynamic_gaps.sh
+seat * xcursor_theme Bibata-Modern-Classic 24
+
 #
 # Example configuration:
 #
@@ -87,10 +90,10 @@ output HDMI-A-1 bg /home/dany/dotfiles/nixos/sway/backgrounds/Background_3840x10
 # Sceenshots:
 # 
 # Fullscreen screenshot
-    bindsym Print exec grim ~/Pictures/screenshot_$(date +%F_%T).png
+    bindsym Print exec grim ~/Pictures/screenshot_$(date +%F_%T).png | wl-copy
 
 # Select area
-    bindsym Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%F_%T).png
+    bindsym Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%F_%T).png | wl-copy
 
     # Start a terminal
     bindsym $mod+Return exec $term
