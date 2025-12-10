@@ -24,15 +24,26 @@ return {
       
       -- Completion window appearance
       window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = {
+          border = "none",
+          max_width = 50,
+          max_height = 5,
+          scrollbar = true,
+          col_offset = 0,
+          side_padding = 1,
+        },
+        documentation = {
+          border = "none",
+          max_width = 60,
+          max_height = 8,
+        },
       },
       
       -- Key mappings
       mapping = cmp.mapping.preset.insert({
         -- Navigate completion menu
-        ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+        ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
         
         -- Scroll documentation
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -45,8 +56,8 @@ return {
         ['<C-e>'] = cmp.mapping.abort(),
         
         -- Accept completion
-        ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Only confirm explicitly selected items
-        ['<Tab>'] = cmp.mapping.confirm({ select = true }), -- Tab confirms selected or first item
+        ['<CR>'] = cmp.mapping.abort(), -- Enter closes menu instead of confirming
+        ['<Tab>'] = cmp.mapping.confirm({ select = true }), -- Only Tab confirms
         
         -- Snippet navigation
         ['<C-l>'] = cmp.mapping(function()
@@ -65,7 +76,7 @@ return {
       sources = cmp.config.sources({
         { name = 'nvim_lsp', priority = 1000 }, -- Highest priority for LSP
         { name = 'luasnip', priority = 750 },
-        { name = 'buffer', priority = 500, keyword_length = 3 }, -- Only after 3 chars
+        { name = 'buffer', priority = 500, keyword_length = 4 }, -- Only after 4 chars
         { name = 'path', priority = 250 },
       }),
       
@@ -134,15 +145,18 @@ return {
       
       -- Completion behavior
       completion = {
-        completeopt = 'menu,menuone,noinsert',
-        keyword_length = 1, -- Start suggesting after 1 character
+        completeopt = 'menu,menuone,noselect',
+        keyword_length = 2, -- Start suggesting after 2 characters
       },
+      
+      -- Preselect first item
+      preselect = require('cmp').PreselectMode.Item,
       
       -- Enable fuzzy matching
       matching = {
         disallow_fuzzy_matching = false,
-        disallow_fullfuzzy_matching = false,
-        disallow_partial_fuzzy_matching = false,
+        disallow_fullfuzzy_matching = true,
+        disallow_partial_fuzzy_matching = true,
         disallow_partial_matching = false,
         disallow_prefix_unmatching = false,
       },

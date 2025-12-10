@@ -28,7 +28,8 @@ vim.lsp.handlers['textDocument/hover'] = function(...)
   return bufnr, winnr
 end
 
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
+-- Disable default signature help (using lsp_signature.nvim instead)
+vim.lsp.handlers['textDocument/signatureHelp'] = function() end
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),

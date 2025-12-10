@@ -18,9 +18,9 @@ return {
     gopls = {
       -- Better completion settings
       completeUnimported = true, -- Suggest unimported packages
-      usePlaceholders = false, -- Don't use placeholders - let user type their own variables
-      deepCompletion = true, -- Enable deep completion
-      
+      -- usePlaceholders = false, -- Don't use placeholders - let user type their own variables
+      deepCompletion = true,     -- Enable deep completion
+
       -- Improve analysis for better suggestions
       analyses = {
         unusedparams = true,
@@ -29,7 +29,7 @@ return {
         unusedwrite = true,
         useany = true,
       },
-      
+
       -- Better hints
       hints = {
         assignVariableTypes = true,
@@ -40,13 +40,13 @@ return {
         parameterNames = true,
         rangeVariableTypes = true,
       },
-      
+
       -- Static check
       staticcheck = true,
-      
+
       -- Semantic tokens for better highlighting
       semanticTokens = true,
-      
+
       -- Code lens
       codelenses = {
         gc_details = false,
