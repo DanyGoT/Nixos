@@ -5,16 +5,28 @@ vim.lsp.enable({ 'luals', 'typescript-language-server', 'gopls', 'pylsp', 'cshar
 vim.o.completeopt = 'menu,menuone,noselect'
 
 -- Set border and highlight
-vim.o.winborder = 'rounded'
+vim.o.winborder = 'none'
 
 -- Configure LSP handlers with borders
-local border = 'rounded'
+local border = 'none'
 
 -- Custom hover handler that sets conceallevel for proper markdown rendering
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = border,
   -- Ensure conceallevel is set to 1 in hover window for markdown rendering
   focusable = true,
+})
+
+-- Enable diagnostics globally
+vim.diagnostic.enable()
+
+-- Configure how they appear
+vim.diagnostic.config({
+  virtual_text = { prefix = "💥", spacing = 4 },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
 })
 
 -- Override the hover handler to set conceallevel in the floating window
