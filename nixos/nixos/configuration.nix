@@ -75,7 +75,8 @@
     lua51Packages.luarocks
     lua51Packages.lua
     lua-language-server
-    # elixir
+    elixir
+    elixir-ls
     csharp-ls
     dotnet-sdk_9
     dotnet-ef
@@ -106,6 +107,8 @@
     docker
     docker-compose
     
+    direnv
+    wofi
 
 
     # Wayland/Sway/Niri environment
@@ -140,6 +143,7 @@
     # Audio
     pavucontrol # PulseAudio Volume Control
     pamixer # Command-line mixer for PulseAudio
+    easyeffects
     # bluez # Bluetooth support
     # bluez-tools # Bluetooth tools
   ];
@@ -164,6 +168,7 @@
       pull.rebase = true;
     };
   };
+  programs.direnv.enable = true;
 
   # programs.hyprland.enable = true;
   # programs.niri.enable = true;
@@ -211,11 +216,12 @@
 
   services.pipewire = {
     enable = true;
-    # wireplumber.enable = false;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  services.power-profiles-daemon.enable = true;
 
   # Disable default key actions for power buttons
   services.logind = {
