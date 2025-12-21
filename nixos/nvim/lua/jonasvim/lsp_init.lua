@@ -1,5 +1,5 @@
 -- Enable LSP servers
-vim.lsp.enable({ 'luals', 'typescript-language-server', 'gopls', 'pylsp', 'csharp-ls' })
+vim.lsp.enable({ 'luals', 'typescript-language-server', 'gopls', 'pylsp', 'csharp-ls', 'elixir-ls' })
 
 -- Set completeopt for better completion experience with nvim-cmp
 vim.o.completeopt = 'menu,menuone,noselect'
@@ -35,7 +35,7 @@ vim.lsp.handlers['textDocument/hover'] = function(...)
   local bufnr, winnr = original_hover_handler(...)
   if winnr then
     -- Set conceallevel to 1 in the hover window for proper markdown rendering
-    vim.api.nvim_set_option_value('conceallevel', 1, { win = winnr })
+    -- vim.api.nvim_set_option_value('conceallevel', 1, { win = winnr })
   end
   return bufnr, winnr
 end
