@@ -227,6 +227,15 @@
     lidSwitchExternalPower = "suspend";
   };
 
+  services.postgresql = {
+    enable = true;
+    authentication = pkgs.lib.mkOverride 10 ''
+      local all all trust
+      host all all 127.0.0.1/32 trust
+      host all all ::1/128 trust
+    '';
+  };
+
   # ===== SYSTEM VERSION =====
   # This value determines the NixOS release from which the default
   # settings for stateful data were taken. Don't change this value.
