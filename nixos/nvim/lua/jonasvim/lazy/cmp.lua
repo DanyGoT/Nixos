@@ -15,6 +15,10 @@ return {
     local cmp = require('cmp')
     local luasnip = require('luasnip')
 
+    -- Set up highlight groups for matched text in completions
+    vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { fg = '#569CD6', bold = true })
+    vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { fg = '#569CD6', bold = true })
+
     cmp.setup({
       snippet = {
         expand = function(args)
