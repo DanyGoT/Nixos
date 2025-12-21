@@ -12,6 +12,29 @@ vim.keymap.set({ 'n', 'i', 'v' }, '<C-z>', '<Nop>')
 vim.keymap.set('n', '<leader>w', ':w<CR>', { desc = 'Save file' })
 vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'Quit Neovim' })
 
+-- Open error message
+vim.keymap.set("n", "<leader>k", function()
+  vim.diagnostic.open_float(nil, {
+    focus = false,
+    scope = "cursor",
+    border = "none",
+    source = "if_many",
+  })
+end, { desc = "Line diagnostics" })
+
+-- Toggle diagnostics virtual text
+vim.keymap.set("n", "<leader>tv", function()
+  local config = vim.diagnostic.config() -- get current global config
+  local enabled = config.virtual_text
+
+  if enabled then
+    vim.diagnostic.config({ virtual_text = false })
+    print("Diagnostics virtual text disabled")
+  else
+    vim.diagnostic.config({ virtual_text = { prefix = "💥", spacing = 4 } })
+    print("Diagnostics virtual text enabled")
+  end
+end, { desc = "Toggle diagnostics virtual text" })
 
 -- Split resizing (using Alt + arrow keys since they're intuitive for resizing)
 vim.keymap.set('n', '<A-Up>', ':resize -5<CR>', { silent = true, desc = 'Increase height' })
