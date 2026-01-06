@@ -153,7 +153,7 @@
     fontDir.enable = true;
     fontconfig.enable = true;
     packages = with pkgs; [
-      _0xproto
+      nerd-fonts._0xproto
       font-awesome
     ];
   };
