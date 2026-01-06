@@ -23,7 +23,7 @@ return {
       -- Disable auto-inserting @spec suggestions
       suggestSpecs = false,
       -- Disable test lenses
-      enableTestLenses = false,
+      enableTestLenses = true,
     }
   },
   -- Configure discrete diagnostics for Elixir
