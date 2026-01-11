@@ -41,6 +41,9 @@ return {
         rangeVariableTypes = true,
       },
 
+      -- gofumpt = true,
+
+
       -- Static check
       staticcheck = true,
 
