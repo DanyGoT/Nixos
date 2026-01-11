@@ -31,7 +31,7 @@ vim.keymap.set("n", "<leader>tv", function()
     vim.diagnostic.config({ virtual_text = false })
     print("Diagnostics virtual text disabled")
   else
-    vim.diagnostic.config({ virtual_text = { prefix = "💥", spacing = 4 } })
+    vim.diagnostic.config({ virtual_text = { prefix = "●", spacing = 4 } })
     print("Diagnostics virtual text enabled")
   end
 end, { desc = "Toggle diagnostics virtual text" })
