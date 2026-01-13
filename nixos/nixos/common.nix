@@ -1,14 +1,6 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running 'nixos-help').
-
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   # ===== BOOT =====
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -25,7 +17,6 @@
         chainloader +1
       }
     '';
-    theme="/boot/grub/themes/Minimal/NIXOS";
   };
   boot.loader.timeout = null;
 
@@ -70,6 +61,8 @@
     neovim
     gcc
     gnumake
+    rustc
+    cargo
     
     # Language servers and runtimes
     lua51Packages.luarocks
@@ -187,6 +180,9 @@
       enable = true;
       theme = "robbyrussell";
     };
+    interactiveShellInit = ''
+      eval "$(zoxide init zsh)"
+    '';
   };
 
   programs.neovim = {
@@ -225,13 +221,13 @@
   services.power-profiles-daemon.enable = true;
 
   # Disable default key actions for power buttons
-  services.logind = {
-    rebootKey = "ignore";
-    suspendKey = "ignore";
-    hibernateKey = "ignore";
-    lidSwitch = "suspend";
-    lidSwitchDocked = "suspend";
-    lidSwitchExternalPower = "suspend";
+  services.logind.settings.Login = {
+    HandleLidSwitchDocked = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitch = "suspend";
+    HandleHibernateKey = "ignore";
+    HandleSuspendKey = "ignore";
+    HandleRebootKey = "ignore";
   };
 
   services.postgresql = {
@@ -247,4 +243,5 @@
   # This value determines the NixOS release from which the default
   # settings for stateful data were taken. Don't change this value.
   system.stateVersion = "25.05";
+
 }
