@@ -14,12 +14,14 @@ return {
     '.git',
   },
   capabilities = capabilities,
-  settings = {
+  ettings = {
     gopls = {
       -- Better completion settings
-      completeUnimported = true, -- Suggest unimported packages
-      -- usePlaceholders = false, -- Don't use placeholders - let user type their own variables
-      deepCompletion = true,     -- Enable deep completion
+      completeUnimported = true,
+      -- usePlaceholders = false,
+      deepCompletion = true,
+
+      -- gofumpt = true,
 
       -- Improve analysis for better suggestions
       analyses = {
@@ -41,7 +43,6 @@ return {
         rangeVariableTypes = true,
       },
 
-      -- gofumpt = true,
 
 
       -- Static check
@@ -49,7 +50,6 @@ return {
 
       -- Semantic tokens for better highlighting
       semanticTokens = true,
-
       -- Code lens
       codelenses = {
         gc_details = false,
