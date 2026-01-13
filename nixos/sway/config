@@ -42,7 +42,7 @@ input type:touchpad {
 #
 # Default wallpaper (more resolutions are available in /run/current-system/sw/share/backgrounds/sway/)
 # output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output eDP-1 bg /home/dany/dotfiles/nixos/sway/backgrounds/Background_1920x1080.png fill
+output eDP-1 bg /home/dany/dotfiles/nixos/sway/backgrounds/Background2_1920x1080.png fill
 output HDMI-A-1 bg /home/dany/dotfiles/nixos/sway/backgrounds/Background_3840x1080.png fill
 
 exec_always sleep 2 && ~/.config/sway/scripts/dynamic_gaps.sh
