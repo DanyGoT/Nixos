@@ -5,7 +5,7 @@ swaymsg -t subscribe -m '["window", "workspace"]' | while read -r event; do
     output=$(echo "$focused_ws" | jq -r '.output')
     window_count=$(echo "$focused_ws" | jq -r '.representation | split(" ") | length')
 
-    if [[ "$output" == "HDMI-A-1" && "$window_count" -eq 1 ]]; then
+    if [[ ("$output" == "HDMI-A-1" || "$output" == "DP-3") && "$window_count" -eq 1 ]]; then
         swaymsg gaps horizontal current set 650
         # swaymsg gaps left all set 450
         # swaymsg gaps right all set 450
