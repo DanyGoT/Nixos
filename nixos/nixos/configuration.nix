@@ -82,6 +82,7 @@
     dotnet-ef
     go
     gopls
+    gotools
     typescript-language-server
     nodejs
     python3
