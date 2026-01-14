@@ -46,9 +46,12 @@
     claude-code
 
     python3Full
+    pyright  # Better Python LSP server
+    ruff     # Fast Python linter and formatter
     go
     
     gopls
+    
 
     texpresso
 
@@ -59,8 +62,11 @@
     lazygit
     age
     sops
+    eza
+    tmux
 
     wget
+
   ];
 
 

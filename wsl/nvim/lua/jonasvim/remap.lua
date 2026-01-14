@@ -3,15 +3,6 @@ vim.g.mapleader = ' '
 -- Keymap for å åpne oil
 vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 
--- Manual keybind to activate LSP completion
-vim.keymap.set('i', '<c-space>', function()
-  vim.lsp.completion.get()
-end)
-
--- Open terminal
-vim.keymap.set('n', '<leader>t', [[<CMD>new<CR><CMD>terminal<CR>]], { desc = 'Open terminal in neovim' })
-vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], { desc = 'Back to normal mode in terminal mode' })
-
 -- Better indent dany spesial
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
@@ -77,3 +68,20 @@ vim.keymap.set('v', '<leader>s', [[y:%s/\V<C-r>"/<C-r>"/gI<Left><Left><Left>]])
 vim.keymap.set('n', '<leader>xx', '<cmd>!chmod +x %<CR>', { silent = true })
 
 vim.keymap.set('n', '<leader>mr', '<cmd>CellularAutomaton make_it_rain<CR>')
+
+-- Diagnostic navigation keymaps
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show line diagnostics' })
+vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Diagnostics to location list' })
+
+-- Quick access to current diagnostic details
+vim.keymap.set('n', '<leader>dd', function()
+  local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
+  if #diagnostics == 0 then
+    print('No diagnostics on current line')
+    return
+  end
+  
+  for i, diagnostic in ipairs(diagnostics) do
+    print(string.format('%d: [%s] %s', i, diagnostic.source or 'LSP', diagnostic.message))
+  end
+end, { desc = 'Show current line diagnostics in detail' })
