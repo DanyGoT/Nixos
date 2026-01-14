@@ -1,5 +1,5 @@
 -- Enable LSP servers
-vim.lsp.enable({ 'luals', 'typescript-language-server', 'gopls', 'pylsp', 'csharp-ls', 'elixir-ls' })
+vim.lsp.enable({ 'luals', 'typescript-language-server', 'gopls', 'pyright', 'ruff', 'csharp-ls', 'elixir-ls' })
 
 -- Set completeopt for better completion experience with nvim-cmp
 vim.o.completeopt = 'menu,menuone,noselect'

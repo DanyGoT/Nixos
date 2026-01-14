@@ -79,6 +79,9 @@
     typescript-language-server
     nodejs
     python3
+    pyright
+    ruff
+    uv
     # python3Full
     # python313Packages.python-lsp-server
 
@@ -118,6 +121,7 @@
     mako
     wl-clipboard
     brightnessctl
+    eza
     tmux
     xwayland-satellite
 
