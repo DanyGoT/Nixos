@@ -69,7 +69,8 @@ seat * xcursor_theme Bibata-Modern-Classic 24
     bindsym Print exec grim ~/Pictures/screenshot_$(date +%F_%T).png | wl-copy
 
 # Select area
-    bindsym Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%F_%T).png | wl-copy
+    # bindsym Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%F_%T).png | wl-copy
+    bindsym Shift+Print exec grim -g "$(slurp)" -t png - | wl-copy -t image/png
 
     # Start a terminal
     bindsym $mod+Return exec $term
