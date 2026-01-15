@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
   ];
   
+  networking.hostName = "nixos-desktop";
   #### Display stuff
   hardware.graphics = {
     enable = true;

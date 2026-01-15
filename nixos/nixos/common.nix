@@ -21,7 +21,6 @@
   boot.loader.timeout = null;
 
   # ===== NETWORKING =====
-  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
   # ===== LOCALIZATION =====
@@ -206,6 +205,7 @@
   # ===== SERVICES =====
   services.gnome.gnome-keyring.enable = true;
   services.seatd.enable = true;
+  services.openssh.enable = true;
   # services.blueman.enable = true;
   # services.pipewire.wireplumber.enable = false;
   # Enable sound system
