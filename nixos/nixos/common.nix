@@ -85,6 +85,7 @@
     # python313Packages.python-lsp-server
 
     # CLI utilities
+    gh
     fzf
     zoxide
     ripgrep
@@ -92,6 +93,7 @@
     lazygit
     wget
     claude-code
+    opencode
     jq
     asciinema # record terminal and create gifs https://github.com/asciinema/asciinema
     
