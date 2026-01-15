@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, callPackage, ... }:
 
 {
   imports = [
@@ -43,24 +43,45 @@
 
   programs.steam.enable = true;
 
+
+  #########################
+  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
+  services.xserver = {
+    enable = true;
+
+    desktopManager.xterm.enable = false;
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        i3status
+        i3blocks
+        dmenu
+        rofi
+     ];
+    };
+  };
+  ##############################
+
+  services.displayManager.defaultSession = "none+i3";
+
+
   # Home TV
   environment.systemPackages = with pkgs; [
     qbittorrent
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
+
+    xorg.xinit  # Provides startx
+    maim        # Screenshots
+    xclip       # Clipboard for X11
   ];
   services.jellyfin = {
     enable = true;
     openFirewall = true;
   };
-  # services.sonarr = {
-  #   enable = true;
-  #   openFirewall = true;
-  # };
   users.groups.media = {};
   users.groups.downloads = {};
   users.users.dany.extraGroups = [ "downloads" "media" ];
   users.users.jellyfin.extraGroups = [ "media" ];
-  # users.users.sonarr.extraGroups = [ "downloads" "media" ];
 }
