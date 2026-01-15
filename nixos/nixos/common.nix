@@ -208,6 +208,10 @@
   services.gnome.gnome-keyring.enable = true;
   services.seatd.enable = true;
   services.openssh.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+  };
   # services.blueman.enable = true;
   # services.pipewire.wireplumber.enable = false;
   # Enable sound system
