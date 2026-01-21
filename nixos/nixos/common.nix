@@ -83,6 +83,10 @@
     uv
     # python3Full
     # python313Packages.python-lsp-server
+    
+
+    emacs
+
 
     # CLI utilities
     gh
