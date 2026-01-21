@@ -43,11 +43,21 @@
 
   programs.steam.enable = true;
 
+  # Enable xscreensaver service (handles PAM and permissions properly)
+  services.xscreensaver.enable = true;
+
 
   #########################
   environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
   services.xserver = {
     enable = true;
+
+    # Disable DPMS to prevent display power-off issues with DisplayPort
+    displayManager.sessionCommands = ''
+      xset s off
+      xset -dpms
+      xset s noblank
+    '';
 
     desktopManager.xterm.enable = false;
     windowManager.i3 = {
@@ -75,6 +85,7 @@
     xorg.xinit  # Provides startx
     maim        # Screenshots
     xclip       # Clipboard for X11
+    xscreensaver
   ];
   services.jellyfin = {
     enable = true;
