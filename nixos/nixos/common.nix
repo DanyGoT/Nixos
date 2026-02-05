@@ -64,6 +64,8 @@
     cargo
     
     # Language servers and runtimes
+    pandoc
+    shellcheck
     lua51Packages.luarocks
     lua51Packages.lua
     lua-language-server
@@ -90,6 +92,7 @@
 
     # CLI utilities
     gh
+    fd
     fzf
     zoxide
     ripgrep
@@ -157,6 +160,7 @@
     fontconfig.enable = true;
     packages = with pkgs; [
       nerd-fonts._0xproto
+      nerd-fonts.symbols-only
       font-awesome
     ];
   };
