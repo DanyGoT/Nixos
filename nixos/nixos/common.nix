@@ -62,6 +62,8 @@
     gnumake
     rustc
     cargo
+    cmake
+    libtool
     
     # Language servers and runtimes
     pandoc
