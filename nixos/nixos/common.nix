@@ -87,7 +87,6 @@
     uv
     # python3Full
     # python313Packages.python-lsp-server
-    
 
     emacs
 
@@ -221,6 +220,36 @@
   # services.blueman.enable = true;
   # services.pipewire.wireplumber.enable = false;
   # Enable sound system
+  services.syncthing = {
+    enable = true;
+    user = "dany";
+    dataDir = "/home/dany/.config/syncthing";
+    configDir = "/home/dany/.config/syncthing";
+
+    openDefaultPorts = true;
+    overrideDevices = false;
+
+    settings = {
+      options = {
+        urAccepted = -1; # Disable usage reporting
+      };
+      folders = {
+        skole = {
+          path = "/home/dany/sync/skole";
+          type = "sendreceive";
+          fsWatcherEnabled = true;
+          versioning = {
+            type = "staggered";
+            params = {
+              maxAge = "2592000"; # 30 days
+            };
+          };
+          rescanIntervalS = 3600;
+          ignorePerms = false;
+        };
+      };
+    };
+  };
 
 # Use PipeWire for audio
   services.pulseaudio.enable = false; # Use Pipewire, the modern sound subsystem
