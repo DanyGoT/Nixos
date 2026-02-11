@@ -40,7 +40,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/sync/org/")
 (after! org
   (setq org-capture-templates
         '(("s" "School link" entry
@@ -90,5 +90,5 @@
   (calfw-open-calendar-buffer
    :contents-sources
    (list
-    (calfw-org-create-file-source "Skole" "~/org/skole.org" "Orange")  ; our blog organizational calendar
+    (calfw-org-create-file-source "Skole" "~/sync/org/skole.org" "Orange")  ; our blog organizational calendar
    )))
