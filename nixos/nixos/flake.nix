@@ -1,12 +1,22 @@
 {
-  inputs.sops-nix.url = "github:Mic92/sops-nix";
-  inputs.sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = { self, nixpkgs, sops-nix }: {
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+  outputs = { self, nixpkgs, sops-nix, dms, ...}@inputs: {
     nixosConfigurations = {
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
+          dms.nixosModules.dank-material-shell
           ./common.nix
           ./laptop/configuration.nix
           sops-nix.nixosModules.sops
