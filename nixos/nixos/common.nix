@@ -92,6 +92,7 @@
 
 
     # CLI utilities
+    sops
     gh
     fd
     fzf
@@ -228,14 +229,20 @@
 
     openDefaultPorts = true;
     overrideDevices = false;
+    overrideFolders = false;
 
     settings = {
       options = {
         urAccepted = -1; # Disable usage reporting
       };
+      devices = { 
+        "tablet" = { id = config.sops.templates."syncthing-tablet-id".content; };
+      };
       folders = {
-        skole = {
+        "skole" = {
+          id = "skole";
           path = "/home/dany/sync/skole";
+          devices = [ "tablet" ];
           type = "sendreceive";
           fsWatcherEnabled = true;
           versioning = {
@@ -249,6 +256,16 @@
         };
       };
     };
+  };
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    age.keyFile = "/var/lib/sops-nix/key.txt";
+    secrets = {
+      "syncthing/tablet-id" = {
+        owner = "dany";
+      };
+    };
+    templates."syncthing-tablet-id".content = config.sops.placeholder."syncthing/tablet-id";
   };
 
 # Use PipeWire for audio
