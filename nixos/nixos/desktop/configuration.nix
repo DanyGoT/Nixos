@@ -86,6 +86,8 @@
     maim        # Screenshots
     xclip       # Clipboard for X11
     xscreensaver
+
+    spotify
   ];
   services.jellyfin = {
     enable = true;
