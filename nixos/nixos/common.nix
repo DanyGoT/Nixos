@@ -11,7 +11,7 @@
     useOSProber = true;
     configurationLimit = 3;
     extraEntries = ''
-      menuenry "Windows" {
+      menuentry "Windows" {
         insmod chain
         set root=(hd0,1)
         chainloader +1
@@ -26,23 +26,14 @@
   # ===== LOCALIZATION =====
   time.timeZone = "Europe/Oslo";
   i18n.defaultLocale = "en_US.UTF-8";
-  # ===== KEYMAP =====
-  services.xserver.xkb = {
-    layout = "no";
-    variant = "";
-  };
   console.keyMap = "no";
-  
-  environment.variables = {
-    GTK_IM_MODULE = "simple";
-  };
+  services.xserver.xkb.layout = "no";
 
   # ===== USER CONFIGURATION =====
   users.users.dany = {
     isNormalUser = true;
     description = "Dany";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [];
+    extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
   };
 
@@ -52,22 +43,15 @@
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # services.xserver.enable = true;
-
   # ===== SYSTEM PACKAGES =====
   environment.systemPackages = with pkgs; [
-    # Editor and build tools
-    neovim
+    # Build tools
     gcc
     gnumake
-    rustc
-    cargo
     cmake
     libtool
-    
+
     # Language servers and runtimes
-    pandoc
-    shellcheck
     lua51Packages.luarocks
     lua51Packages.lua
     lua-language-server
@@ -85,75 +69,54 @@
     pyright
     ruff
     uv
-    # python3Full
-    # python313Packages.python-lsp-server
-
     emacs
 
-
-    # CLI utilities
-    sops
-    gh
+    # CLI tools
+    bat
+    btop
+    claude-code
+    dust
+    eza
     fd
     fzf
-    zoxide
-    ripgrep
-    stow
-    lazygit
-    wget
-    claude-code
-    opencode
+    gh
     jq
-    asciinema # record terminal and create gifs https://github.com/asciinema/asciinema
-    
-    # Security and DevOps tools
-    # openssl
-    # mkcert
-    # kubectl
-    # gcloud
-    docker
-    docker-compose
-    
-    direnv
-    wofi
+    lazygit
+    ripgrep
+    sops
+    stow
+    tldr
+    tmux
+    wget
+    zoxide
 
-
-    # Wayland/Sway/Niri environment
-    niri
-    sway
+    # Wayland/Sway
     waybar
-    hyprland
     ghostty
-    kitty  # Required for default Hyprland config
     fuzzel
     grim
     slurp
     mako
     wl-clipboard
     brightnessctl
-    eza
-    tmux
-    xwayland-satellite
-
-    # Cursor
     bibata-cursors
-    
-    # Desktop applications
-    vscode
-    # google-chrome
+
+    # Desktop apps
     brave
     discord
-    teams-for-linux
-    postgresql
     gimp
     libreoffice
+    teams-for-linux
+    vscode
+
+    # DevOps
+    podman-compose
+    postgresql
 
     # Audio
-    pavucontrol # PulseAudio Volume Control
-    pamixer # Command-line mixer for PulseAudio
     easyeffects
-    # bluez # Bluetooth support
-    # bluez-tools # Bluetooth tools
+    pamixer
+    pavucontrol
   ];
 
   # ===== FONTS =====
@@ -168,59 +131,40 @@
   };
 
   # ===== VIRTUALISATION =====
-  virtualisation.docker.enable = true;
-
-  # ===== PROGRAM CONFIGURATION =====
-  programs.git = {
+  virtualisation.podman = {
     enable = true;
-    config = {
-      pull.rebase = true;
-    };
+    dockerCompat = true;  # alias docker to podman
+    defaultNetwork.settings.dns_enabled = true;
   };
+
+  # ===== PROGRAMS =====
   programs.direnv.enable = true;
-
-  # programs.hyprland.enable = true;
-  # programs.niri.enable = true;
-  # programs.waybar.enable = true;
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
-
-  programs.light.enable = true;
-
+  programs.nix-ld.enable = true;
+  programs.neovim = { enable = true; defaultEditor = true; };
+  programs.sway = { enable = true; wrapperFeatures.gtk = true; };
+  programs.git = { enable = true; config.pull.rebase = true; };
   programs.zsh = {
     enable = true;
-    ohMyZsh = {
-      enable = true;
-      theme = "robbyrussell";
-    };
-    interactiveShellInit = ''
-      eval "$(zoxide init zsh)"
-    '';
+    ohMyZsh = { enable = true; theme = "robbyrussell"; };
+    interactiveShellInit = ''eval "$(zoxide init zsh)"'';
   };
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
-  # ===== ENVIRONMENT VARIABLES =====
+  # ===== ENVIRONMENT =====
   environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
     EDITOR = "nvim";
     VISUAL = "nvim";
+    GTK_IM_MODULE = "simple";
+    NIXOS_OZONE_WL = "1";
     XCURSOR_THEME = "Bibata-Modern-Cursors";
     XCURSOR_SIZE = "24";
   };
 
   # ===== SERVICES =====
   services.gnome.gnome-keyring.enable = true;
-  services.seatd.enable = true;
   services.openssh.enable = true;
-  # services.blueman.enable = true;
-  # services.pipewire.wireplumber.enable = false;
-  # Enable sound system
+  services.power-profiles-daemon.enable = true;
+  services.seatd.enable = true;
+
   services.syncthing = {
     enable = true;
     user = "dany";
@@ -268,32 +212,23 @@
     templates."syncthing-tablet-id".content = config.sops.placeholder."syncthing/tablet-id";
   };
 
-# Use PipeWire for audio
-  services.pulseaudio.enable = false; # Use Pipewire, the modern sound subsystem
+  # ===== AUDIO (PipeWire) =====
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = { enable = true; alsa.enable = true; alsa.support32Bit = true; pulse.enable = true; };
 
-  security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  services.power-profiles-daemon.enable = true;
-
-  # Disable default key actions for power buttons
   services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
     HandleLidSwitchDocked = "suspend";
     HandleLidSwitchExternalPower = "suspend";
-    HandleLidSwitch = "suspend";
     HandleHibernateKey = "ignore";
     HandleSuspendKey = "ignore";
     HandleRebootKey = "ignore";
   };
 
+  # PostgreSQL - start manually with: sudo systemctl start postgresql
   services.postgresql = {
-    enable = true;
+    enable = false;
     authentication = pkgs.lib.mkOverride 10 ''
       local all all trust
       host all all 127.0.0.1/32 trust
@@ -302,8 +237,6 @@
   };
 
   # ===== SYSTEM VERSION =====
-  # This value determines the NixOS release from which the default
-  # settings for stateful data were taken. Don't change this value.
   system.stateVersion = "25.05";
 
 }
