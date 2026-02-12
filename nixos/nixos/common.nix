@@ -71,6 +71,8 @@
     uv
     emacs
 
+    texliveFull
+
     # CLI tools
     bat
     btop
