@@ -82,6 +82,8 @@
 (setq avy-all-windows t)
 (setq display-line-numbers 'relative)
 
+(add-hook 'text-mode-hook #'auto-fill-mode)
+
 (require 'calfw-cal)
 (require 'calfw-org)
 
@@ -91,4 +93,11 @@
    :contents-sources
    (list
     (calfw-org-create-file-source "Skole" "~/sync/org/skole.org" "Orange")  ; our blog organizational calendar
-   )))
+    )))
+
+
+(after! python
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(python-mode . ("uvx" "--from" "basedpyright" "basedpyright-langserver" "--stdio"))))
+  )
