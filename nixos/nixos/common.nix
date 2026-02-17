@@ -77,6 +77,7 @@
     bat
     btop
     claude-code
+    opencode
     dust
     eza
     fd
@@ -91,6 +92,7 @@
     tmux
     wget
     zoxide
+    yazi
 
     # Wayland/Sway
     waybar
@@ -110,6 +112,10 @@
     libreoffice
     teams-for-linux
     vscode
+    thunar
+    thunar-archive-plugin
+    thunar-volman
+    gvfs
 
     # DevOps
     podman-compose
@@ -161,11 +167,17 @@
     XCURSOR_SIZE = "24";
   };
 
+  xdg.mime.defaultApplications = {
+    "inode/directory" = ["thunar.desktop"];
+    "application/x-directory" = ["thunar.desktop"];
+  };
+
   # ===== SERVICES =====
   services.gnome.gnome-keyring.enable = true;
-  services.openssh.enable = true;
   services.power-profiles-daemon.enable = true;
   services.seatd.enable = true;
+  services.openssh.enable = true;
+  services.tailscale.enable = true;
 
   services.syncthing = {
     enable = true;
