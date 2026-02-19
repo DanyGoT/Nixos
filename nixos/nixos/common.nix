@@ -10,13 +10,6 @@
     efiSupport = true;
     useOSProber = true;
     configurationLimit = 3;
-    extraEntries = ''
-      menuentry "Windows" {
-        insmod chain
-        set root=(hd0,1)
-        chainloader +1
-      }
-    '';
   };
   boot.loader.timeout = null;
 
