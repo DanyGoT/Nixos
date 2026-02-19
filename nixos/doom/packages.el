@@ -55,3 +55,4 @@
 
 (package! calfw-cal)
 (package! calfw-org)
+(package! org-inline-pdf)

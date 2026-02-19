@@ -88,6 +88,8 @@
     xscreensaver
 
     spotify
+
+    (btop.override { cudaSupport = true; })
   ];
   services.jellyfin = {
     enable = true;

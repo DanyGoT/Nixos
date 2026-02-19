@@ -95,9 +95,11 @@
     (calfw-org-create-file-source "Skole" "~/sync/org/skole.org" "Orange")  ; our blog organizational calendar
     )))
 
-
 (after! python
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
-                 '(python-mode . ("uvx" "--from" "basedpyright" "basedpyright-langserver" "--stdio"))))
-  )
+                 '(python-mode . ("uvx" "--from" "basedpyright" "basedpyright-langserver" "--stdio")))))
+
+(use-package! org-inline-pdf
+  :after org
+  :hook (org-mode . org-inline-pdf-mode))

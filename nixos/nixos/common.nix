@@ -94,6 +94,9 @@
     zoxide
     yazi
 
+    # PDF
+    pdf2svg
+
     # Wayland/Sway
     waybar
     ghostty
