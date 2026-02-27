@@ -150,7 +150,10 @@
   programs.zsh = {
     enable = true;
     ohMyZsh = { enable = true; theme = "robbyrussell"; };
-    interactiveShellInit = ''eval "$(zoxide init zsh)"'';
+    interactiveShellInit = ''
+      export PATH="$HOME/.local/bin:$PATH"
+      eval "$(zoxide init zsh)"
+    '';
   };
 
   # ===== ENVIRONMENT =====
