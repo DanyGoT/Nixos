@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Rofi menu for opening files in Doom Emacs
+# Uses fd for fast file listing with fuzzy matching via rofi
+
+set -euo pipefail
+
+# Configuration
+SEARCH_DIR="${1:-$HOME}"
+MAX_DEPTH="${ROFI_DOOM_DEPTH:-8}"
+HIDDEN="${ROFI_DOOM_HIDDEN:-false}"
+
+# Build fd command
+fd_cmd=(fd --type f --max-depth "$MAX_DEPTH")
+
+# Include hidden files if requested
+if [[ "$HIDDEN" == "true" ]]; then
+    fd_cmd+=(--hidden)
+fi
+
+# Common ignore patterns
+fd_cmd+=(
+    --exclude '.git'
+    --exclude 'node_modules'
+    --exclude '__pycache__'
+    --exclude '.cache'
+    --exclude '*.elc'
+    --exclude '.straight'
+)
+
+# Get file selection via rofi
+selected=$(
+    "${fd_cmd[@]}" . "$SEARCH_DIR" 2>/dev/null | \
+    rofi -dmenu \
+         -i \
+         -p "Open in Emacs" \
+         -matching fuzzy \
+         -sorting-method fzf \
+         -theme-str 'window {width: 60%;}' \
+         -theme-str 'listview {lines: 15;}'
+)
+
+# Exit if nothing selected
+[[ -z "$selected" ]] && exit 0
+
+# Open in Doom Emacs via emacsclient
+# Falls back to starting emacs if daemon isn't running
+if emacsclient -n -e "(if (daemonp) t)" >/dev/null 2>&1; then
+    emacsclient -n "$selected"
+else
+    # Start emacs with the file if daemon not running
+    emacs "$selected" &
+fi
