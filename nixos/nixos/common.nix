@@ -180,7 +180,6 @@
   services.power-profiles-daemon.enable = true;
   services.seatd.enable = true;
   services.openssh.enable = true;
-  services.tailscale.enable = true;
 
   services.tailscale.enable = true;
   networking.firewall = {
