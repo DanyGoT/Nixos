@@ -103,3 +103,11 @@
 (use-package! org-inline-pdf
   :after org
   :hook (org-mode . org-inline-pdf-mode))
+
+
+;; Window navigation keybinds
+(map! :n
+      "C-h" #'windmove-left
+      "C-j" #'windmove-down
+      "C-k" #'windmove-up
+      "C-l" #'windmove-right)
