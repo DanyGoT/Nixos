@@ -86,6 +86,7 @@
     wget
     zoxide
     yazi
+    bluetui
 
     # PDF
     pdf2svg
@@ -233,10 +234,22 @@
     templates."syncthing-tablet-id".content = config.sops.placeholder."syncthing/tablet-id";
   };
 
+  # ===== BLUETOOTH =====
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
   # ===== AUDIO (PipeWire) =====
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = { enable = true; alsa.enable = true; alsa.support32Bit = true; pulse.enable = true; };
+  services.pipewire = { 
+    enable = true; 
+    # wireplumber = true; 
+    alsa.enable = true; 
+    alsa.support32Bit = true; 
+    pulse.enable = true; 
+  };
 
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
