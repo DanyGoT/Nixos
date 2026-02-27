@@ -172,6 +172,10 @@
   };
 
   # ===== SERVICES =====
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+  };
   services.gnome.gnome-keyring.enable = true;
   services.power-profiles-daemon.enable = true;
   services.seatd.enable = true;
