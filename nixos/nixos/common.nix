@@ -154,6 +154,7 @@
     interactiveShellInit = ''
       export PATH="$HOME/.local/bin:$PATH"
       eval "$(zoxide init zsh)"
+      z() { __zoxide_z "$@" && pwd; }
     '';
   };
 
