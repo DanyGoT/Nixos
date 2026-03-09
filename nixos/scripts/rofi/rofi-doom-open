@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Rofi menu for opening files in Doom Emacs
-# Uses fd for fast file listing with fuzzy matching via rofi
+# desc: Open files in Doom Emacs via rofi
 
 set -euo pipefail
 
@@ -34,6 +33,7 @@ selected=$(
          -i \
          -p "Open in Emacs" \
          -matching fuzzy \
+         -sort \
          -sorting-method fzf \
          -theme-str 'window {width: 60%;}' \
          -theme-str 'listview {lines: 15;}'
