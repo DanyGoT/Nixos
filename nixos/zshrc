@@ -1,0 +1,79 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/dany/.zshrc'
+
+# Add for doom
+path+=(/home/dany/.config/emacs/bin/)
+path+=(~/.local/bin/)
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+# desc: Run go test with fzf selection
+gtr() {
+  local test=$(grep -rh '^func Test' *_test.go 2>/dev/null | sed 's/func \(Test[a-zA-Z0-9_]*\).*/\1/' | fzf --preview 'grep -n {} *_test.go')
+  [[ -n "$test" ]] && go test -v -run "^${test}$" "$@"
+}
+
+# desc: Browse custom commands with fzf
+cmds() {
+  local scripts_dir="$HOME/dotfiles/nixos/scripts"
+  local bin_dir="$HOME/.local/bin"
+
+  local selected=$(
+    {
+      # Functions from .zshrc (look for "# desc:" comment above function)
+      awk '/^# desc:/{desc=$0; next} /^[a-zA-Z_][a-zA-Z0-9_]*\(\)/{
+        gsub(/^# desc:[[:space:]]*/, "", desc)
+        gsub(/\(\).*/, "", $0)
+        print $0 " - " desc
+        desc=""
+      }' ~/.zshrc 2>/dev/null
+
+      # Scripts from .local/bin
+      find "$bin_dir" -maxdepth 1 -type f -executable 2>/dev/null | while read f; do
+        name=$(basename "$f")
+        desc=$(grep -m1 '^# desc:' "$f" 2>/dev/null | sed 's/^# desc:[[:space:]]*//')
+        echo "$name - ${desc:-No description}"
+      done
+
+      # Scripts from dotfiles
+      find "$scripts_dir" -type f -executable 2>/dev/null | while read f; do
+        name=$(basename "$f")
+        desc=$(grep -m1 '^# desc:' "$f" 2>/dev/null | sed 's/^# desc:[[:space:]]*//')
+        echo "$name - ${desc:-No description}"
+      done
+    } | sort -u | fzf --delimiter=' - ' --preview '
+      name=$(echo {} | cut -d" " -f1)
+      if grep -q "^${name}()" ~/.zshrc 2>/dev/null; then
+        echo "=== Function from .zshrc ==="
+        grep -A 15 "^${name}()" ~/.zshrc
+      elif [[ -f ~/.local/bin/"$name" ]]; then
+        echo "=== ~/.local/bin/$name ==="
+        head -40 ~/.local/bin/"$name"
+      else
+        f=$(find ~/dotfiles/nixos/scripts -name "$name" 2>/dev/null | head -1)
+        [[ -n "$f" ]] && echo "=== $f ===" && head -40 "$f"
+      fi
+    '
+  )
+
+  [[ -z "$selected" ]] && return
+
+  local name=$(echo "$selected" | cut -d' ' -f1)
+
+  # Check type and run
+  if grep -q "^${name}()" ~/.zshrc 2>/dev/null; then
+    echo "Run '$name' to use this function"
+  elif [[ -x "$bin_dir/$name" ]]; then
+    "$bin_dir/$name"
+  else
+    find "$scripts_dir" -name "$name" -executable -exec {} \;
+  fi
+}
