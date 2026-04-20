@@ -79,6 +79,7 @@
   ##############################
 
   services.displayManager.defaultSession = "none+i3";
+  services.zerotierone.enable = true;
 
 
   # Home TV
