@@ -181,11 +181,15 @@
   services.gnome.gnome-keyring.enable = true;
   services.power-profiles-daemon.enable = true;
   services.seatd.enable = true;
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    openFirewall = false; 
+  };
 
   services.tailscale.enable = true;
   networking.firewall = {
     allowedUDPPorts = [ 41641 ];
+    trustedInterfaces = [ "tailscale0" ];
   };
 
   services.syncthing = {
