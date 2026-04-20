@@ -41,6 +41,12 @@
     AllowSuspendThenHibernate=no
   '';
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+  };
+
   programs.steam.enable = true;
 
   # Enable xscreensaver service (handles PAM and permissions properly)
