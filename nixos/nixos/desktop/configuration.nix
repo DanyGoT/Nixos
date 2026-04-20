@@ -91,6 +91,7 @@
 
     xorg.xinit  # Provides startx
     maim        # Screenshots
+    flameshot   # Better screenshots
     xclip       # Clipboard for X11
     xscreensaver
 

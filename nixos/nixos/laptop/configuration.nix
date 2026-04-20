@@ -9,4 +9,15 @@
  
   programs.dank-material-shell.enable = true;
   services.upower.enable = true;
+
+  environment.systemPackages = with pkgs; [ flameshot ];
+  services.flameshot = {
+    enable = true;
+    settings = {
+      General = {
+        useGrimAdapter = true;
+        disabledGrimWarning = true;
+      };
+    };
+  };
 }
