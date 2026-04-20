@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # ===== BOOT =====
@@ -65,6 +65,7 @@
     emacs
 
     texliveFull
+    inputs.fff-el.packages.${pkgs.stdenv.hostPlatform.system}.fff-emacs
 
     # CLI tools
     bat
@@ -167,6 +168,7 @@
     XCURSOR_THEME = "Bibata-Modern-Cursors";
     XCURSOR_SIZE = "24";
   };
+  environment.pathsToLink = [ "/share/emacs/site-lisp" ];
 
   xdg.mime.defaultApplications = {
     "inode/directory" = ["thunar.desktop"];
