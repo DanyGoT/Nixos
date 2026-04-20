@@ -56,6 +56,7 @@
     go
     gopls
     gotools
+    delve
     typescript-language-server
     nodejs
     python3
@@ -63,8 +64,6 @@
     ruff
     uv
     emacs
-
-    texliveFull
     inputs.fff-el.packages.${pkgs.stdenv.hostPlatform.system}.fff-emacs
 
     # CLI tools
@@ -91,6 +90,7 @@
 
     # PDF
     pdf2svg
+    texliveFull
 
     # Wayland/Sway
     waybar
