@@ -111,6 +111,11 @@
       "C-j" #'windmove-down
       "C-k" #'windmove-up
       "C-l" #'windmove-right)
+
+(setq org-latex-src-block-backend 'engraved)
+
+(setq-default visual-line-mode t)
+
 (require 'fff)
 (global-set-key (kbd "C-c f f") #'fff-find-file)
 (global-set-key (kbd "C-c f g") #'fff-grep)
