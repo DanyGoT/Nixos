@@ -11,7 +11,7 @@
     useOSProber = true;
     configurationLimit = 3;
   };
-  boot.loader.timeout = null;
+  boot.loader.timeout = 5;
 
   # ===== NETWORKING =====
   networking.networkmanager.enable = true;
@@ -87,6 +87,8 @@
     zoxide
     yazi
     bluetui
+    zip
+    unzip
 
     # PDF
     pdf2svg
