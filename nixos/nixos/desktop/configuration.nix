@@ -13,7 +13,7 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     powerManagement.finegrained = false;
     open = false;  # Use proprietary driver for better early boot support
     nvidiaSettings = true;
@@ -26,26 +26,38 @@
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
     "modprobe.blacklist=nouveau"
+    "resume=PARTUUID=ae5b81fb-7bbb-4363-89ee-9af14d54e5dc"
+    "resume_offset=63436800"
   ];
 
-  # Load NVIDIA modules in initramfs for early boot DisplayPort support
-  boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+  boot.resumeDevice = "/dev/disk/by-label/NIXROOT";
 
   boot.blacklistedKernelModules =  [ "nouveau" ];
 
   # Disable sleep
-  systemd.sleep.extraConfig = ''
-    AllowSuspend=no
-    AllowHibernation=no
-    AllowHybridSleep=no
-    AllowSuspendThenHibernate=no
+  systemd.sleep.settings.Sleep = {
+    AllowSuspend="no";
+    AllowHibernation="yes";
+    AllowHybridSleep="no";
+    AllowSuspendThenHibernate="no";
+  };
+
+  powerManagement.resumeCommands = ''
+    ${pkgs.systemd}/bin/systemctl try-restart tailscaled.service
   '';
 
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 50;
+    memoryPercent = 110;
+    priority = 100;
   };
+
+  swapDevices = [ {
+    device = "/swapfile";
+    size = 32 * 1024;
+    priority = 10;
+  } ];
 
   programs.steam.enable = true;
 
@@ -89,7 +101,7 @@
     jellyfin-web
     jellyfin-ffmpeg
 
-    xorg.xinit  # Provides startx
+    xinit  # Provides startx
     maim        # Screenshots
     flameshot   # Better screenshots
     xclip       # Clipboard for X11
