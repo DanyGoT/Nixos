@@ -10,6 +10,7 @@ zstyle :compinstall filename '/home/dany/.zshrc'
 # Add for doom
 path+=(/home/dany/.config/emacs/bin/)
 path+=(~/.local/bin/)
+path+=(~/go/bin/)
 
 autoload -Uz compinit
 compinit
@@ -70,7 +71,7 @@ cmds() {
 
   # Check type and run
   if grep -q "^${name}()" ~/.zshrc 2>/dev/null; then
-    echo "Run '$name' to use this function"
+    "$name"
   elif [[ -x "$bin_dir/$name" ]]; then
     "$bin_dir/$name"
   else
