@@ -120,3 +120,11 @@
 (global-set-key (kbd "C-c f f") #'fff-find-file)
 (global-set-key (kbd "C-c f g") #'fff-grep)
 (global-set-key (kbd "C-c f G") #'fff-grep-fuzzy)
+
+(defun go-repl ()
+  "Start gore (REPL) for go-mode"
+  (interactive)
+  (start-process "gore" "*gore*" "~/go/bin/gore")
+  (pop-to-buffer "*gore*"))
+
+(set-repl-handler! 'go-mode #'go-repl)
