@@ -128,3 +128,5 @@
   (pop-to-buffer "*gore*"))
 
 (set-repl-handler! 'go-mode #'go-repl)
+
+(add-hook 'org-mode-hook #'org-fragtog-mode)
