@@ -41,7 +41,7 @@ exec --no-startup-id setxkbmap -layout no -option caps:escape
 exec --no-startup-id xset r rate 200 70
 
 # Wallpaper
-exec --no-startup-id feh --bg-fill /home/dany/dotfiles/nixos/sway/backgrounds/Background2_1920x1080.png
+exec --no-startup-id feh --bg-fill /home/dany/Downloads/wallpaperswide.com-panoramic-sunset-over-cathedral-rock-sedona-wallpaper-5120x1440.jpg
 
 # Auto-lock and suspend (similar to swayidle)
 exec --no-startup-id xautolock -time 20 -locker "i3lock -c 000000" &

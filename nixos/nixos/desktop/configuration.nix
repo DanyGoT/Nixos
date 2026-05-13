@@ -61,6 +61,12 @@
 
   programs.steam.enable = true;
 
+  services.picom = {
+    enable = true;
+    backend = "xrender";
+    vSync = true;
+  };
+
   # Enable xscreensaver service (handles PAM and permissions properly)
   services.xscreensaver.enable = true;
 
@@ -106,6 +112,7 @@
     flameshot   # Better screenshots
     xclip       # Clipboard for X11
     xscreensaver
+    feh         # Background
 
     spotify
 
