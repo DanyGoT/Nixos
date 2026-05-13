@@ -7,6 +7,7 @@
   networking.hostName = "nixos-laptop";
   boot.loader.grub.theme = "/boot/grub/themes/Minimal/NIXOS";
  
+  programs.sway = { enable = true; wrapperFeatures.gtk = true; };
   programs.dank-material-shell.enable = true;
   services.upower.enable = true;
 

@@ -100,10 +100,14 @@
     fuzzel
     grim
     slurp
-    mako
+    dunst
+    libnotify
     wl-clipboard
     brightnessctl
     bibata-cursors
+    lxappearance
+    libsForQt5.qt5ct
+    kdePackages.qt6ct
 
     # Desktop apps
     brave
@@ -150,7 +154,6 @@
   programs.direnv.enable = true;
   programs.nix-ld.enable = true;
   programs.neovim = { enable = true; defaultEditor = true; };
-  programs.sway = { enable = true; wrapperFeatures.gtk = true; };
   programs.git = { enable = true; config.pull.rebase = true; };
   programs.zsh = {
     enable = true;
@@ -167,11 +170,20 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
     GTK_IM_MODULE = "simple";
+    QT_QPA_PLATFORMTHEME = "qt5ct";
     NIXOS_OZONE_WL = "1";
     XCURSOR_THEME = "Bibata-Modern-Cursors";
     XCURSOR_SIZE = "24";
   };
   environment.pathsToLink = [ "/share/emacs/site-lisp" ];
+
+  xdg.portal = {
+    enable = true;
+    config.common.default = "*";
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+    ];
+  };
 
   xdg.mime.defaultApplications = {
     "inode/directory" = ["thunar.desktop"];
