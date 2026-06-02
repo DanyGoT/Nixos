@@ -52,9 +52,6 @@
     
     gopls
     
-
-    texpresso
-
     fzf
     zoxide
     ripgrep
@@ -67,6 +64,7 @@
 
     wget
 
+    emacs
   ];
 
 
