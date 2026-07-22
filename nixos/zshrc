@@ -12,6 +12,8 @@ path+=(/home/dany/.config/emacs/bin/)
 path+=(~/.local/bin/)
 path+=(~/go/bin/)
 
+alias lg=lazygit
+
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
