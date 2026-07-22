@@ -57,4 +57,4 @@
 (package! calfw-org)
 (package! org-inline-pdf)
 (package! protobuf-mode)
-
+(package! org-fragtog)
