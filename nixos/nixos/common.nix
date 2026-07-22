@@ -129,7 +129,7 @@
     easyeffects
     pamixer
     pavucontrol
-    inputs.pocr.packages.${pkgs.system}.default
+    inputs.pocr.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   # ===== FONTS =====
