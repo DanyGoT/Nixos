@@ -48,8 +48,8 @@
     lua51Packages.luarocks
     lua51Packages.lua
     lua-language-server
-    elixir
-    elixir-ls
+    # elixir
+    # elixir-ls
     csharp-ls
     dotnet-sdk_9
     dotnet-ef
