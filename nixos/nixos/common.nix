@@ -275,6 +275,11 @@
   # ===== AUDIO (PipeWire) =====
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
+
+  # ===== SECURITY =====
+  security.pam.services.login.enableGnomeKeyring = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
+  security.pam.services.sway.enableGnomeKeyring = true;
   services.pipewire = { 
     enable = true; 
     # wireplumber = true; 
