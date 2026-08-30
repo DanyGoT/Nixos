@@ -120,6 +120,7 @@
     thunar-archive-plugin
     thunar-volman
     gvfs
+    kdePackages.okular
 
     # DevOps
     podman-compose
