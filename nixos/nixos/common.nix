@@ -116,10 +116,8 @@
     libreoffice
     teams-for-linux
     vscode
-    thunar
-    thunar-archive-plugin
-    thunar-volman
-    gvfs
+    papirus-icon-theme
+    solaar
     kdePackages.okular
 
     # DevOps
@@ -156,6 +154,14 @@
   programs.nix-ld.enable = true;
   programs.neovim = { enable = true; defaultEditor = true; };
   programs.git = { enable = true; config.pull.rebase = true; };
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs; [
+      thunar-archive-plugin
+      thunar-volman
+    ];
+  };
+  programs.xfconf.enable = true;
   programs.zsh = {
     enable = true;
     ohMyZsh = { enable = true; theme = "robbyrussell"; };
@@ -197,6 +203,9 @@
     package = pkgs.emacs;
   };
   services.gnome.gnome-keyring.enable = true;
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+  services.udisks2.enable = true;
   services.power-profiles-daemon.enable = true;
   services.seatd.enable = true;
   services.openssh = {
