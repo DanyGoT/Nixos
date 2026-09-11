@@ -51,7 +51,7 @@
     # elixir
     # elixir-ls
     csharp-ls
-    dotnet-sdk_9
+    dotnet-sdk_11
     dotnet-ef
     go
     gopls
@@ -181,6 +181,7 @@
     NIXOS_OZONE_WL = "1";
     XCURSOR_THEME = "Bibata-Modern-Cursors";
     XCURSOR_SIZE = "24";
+    DOTNET_ROOT = "${pkgs.dotnet-sdk_11}/share/dotnet";
   };
   environment.pathsToLink = [ "/share/emacs/site-lisp" ];
 
