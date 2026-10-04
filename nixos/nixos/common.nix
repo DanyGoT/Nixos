@@ -70,6 +70,7 @@
     bat
     btop
     claude-code
+    inputs.herdr.packages.x86_64-linux.default
     opencode
     dust
     eza
