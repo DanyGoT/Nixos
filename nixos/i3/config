@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-exec --no-startup-id xrandr --output DP-4 --mode 5120x1440 --rate 240.00
+exec --no-startup-id xrandr --output DP-2 --mode 5120x1440 --rate 240.00
 
 ### Variables
 set $mod Mod4

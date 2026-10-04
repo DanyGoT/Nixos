@@ -131,3 +131,6 @@
 
 (set-repl-handler! 'go-mode #'go-repl)
 
+(add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
+
+(require 'org-tempo)

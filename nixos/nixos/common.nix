@@ -140,6 +140,8 @@
       nerd-fonts._0xproto
       nerd-fonts.symbols-only
       font-awesome
+
+      corefonts
     ];
   };
 
@@ -218,7 +220,7 @@
   services.tailscale.enable = true;
   networking.firewall = {
     allowedUDPPorts = [ 41641 ];
-    trustedInterfaces = [ "tailscale0" ];
+    trustedInterfaces = [ "tailscale0" "ztrfya33ih" "zteb4joya6" ];
   };
 
   services.syncthing = {

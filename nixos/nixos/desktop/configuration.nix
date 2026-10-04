@@ -1,4 +1,4 @@
-{ config, pkgs, callPackage, ... }:
+{ config, pkgs, callPackage, inputs, ... }:
 
 {
   imports = [
@@ -66,6 +66,7 @@
     backend = "xrender";
     vSync = true;
   };
+  services.flatpak.enable = true;
 
   # Enable xscreensaver service (handles PAM and permissions properly)
   services.xscreensaver.enable = true;
@@ -84,6 +85,7 @@
     '';
 
     desktopManager.xterm.enable = false;
+    windowManager.stumpwm.enable = true;
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
@@ -102,7 +104,6 @@
 
   # Home TV
   environment.systemPackages = with pkgs; [
-    qbittorrent
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
@@ -115,6 +116,7 @@
     feh         # Background
 
     spotify
+    postman
 
     (btop.override { cudaSupport = true; })
   ];
