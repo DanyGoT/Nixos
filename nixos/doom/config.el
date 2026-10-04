@@ -134,3 +134,20 @@
 (add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
 
 (require 'org-tempo)
+(add-hook 'org-mode-hook #'org-fragtog-mode)
+
+;; MATLAB: eglot setup
+(after! eglot
+  (add-to-list 'eglot-server-programs
+               `((matlab-ts-mode matlab-mode)
+                 . ,(lambda (&rest _)
+                      (let ((matlab (executable-find "matlab")))
+                        `("matlab-language-server" "--stdio"
+                          ,@(when matlab
+                              (list (concat "--matlabInstallPath="
+                                            (file-name-directory
+                                             (directory-file-name
+                                              (file-name-directory matlab))))))))))))
+;; local-vars-hook runs after envrc has applied the flake's PATH/MATLABPATH.
+(add-hook 'matlab-ts-mode-local-vars-hook #'lsp! 'append)
+(add-hook 'matlab-mode-local-vars-hook #'lsp! 'append)
