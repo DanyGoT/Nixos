@@ -118,7 +118,6 @@
     teams-for-linux
     vscode
     papirus-icon-theme
-    solaar
     kdePackages.okular
 
     # DevOps
@@ -217,6 +216,12 @@
     openFirewall = false; 
   };
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
   services.tailscale.enable = true;
   networking.firewall = {
     allowedUDPPorts = [ 41641 ];
@@ -274,6 +279,12 @@
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
+  };
+
+  # ===== LOGITECH (Solaar) =====
+  hardware.logitech.wireless = {
+    enable = true;
+    enableGraphical = true;
   };
 
   # ===== AUDIO (PipeWire) =====
