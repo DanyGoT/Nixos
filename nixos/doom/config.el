@@ -103,7 +103,9 @@
 (use-package! org-inline-pdf
   :after org
   :hook (org-mode . org-inline-pdf-mode))
-
+(use-package! org-fragtog
+  :after org
+  :hook (org-mode . org-fragtog-mode))
 
 ;; Window navigation keybinds
 (map! :n
@@ -129,4 +131,3 @@
 
 (set-repl-handler! 'go-mode #'go-repl)
 
-(add-hook 'org-mode-hook #'org-fragtog-mode)
