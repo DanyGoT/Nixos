@@ -68,6 +68,10 @@ bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set 5%+
 bindsym Print exec --no-startup-id flameshot full --clipboard
 bindsym Shift+Print exec --no-startup-id flameshot gui
 
+# OCR
+# bindsym $mod+Shift+s exec --no-startup-id pocr-text
+# bindsym $mod+Shift+m exec --no-startup-id pocr-math
+
 # fullscreen screenshot
 #   bindsym print exec grim ~/pictures/screenshot_$(date +%f_%t).png | wl-copy
 #
