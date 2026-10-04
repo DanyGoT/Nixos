@@ -11,6 +11,9 @@ zstyle :compinstall filename '/home/dany/.zshrc'
 path+=(/home/dany/.config/emacs/bin/)
 path+=(~/.local/bin/)
 path+=(~/go/bin/)
+path+=(~/.npm-global/bin/)
+
+export NPM_CONFIG_PREFIX="$HOME/.npm-global"
 
 alias lg=lazygit
 
