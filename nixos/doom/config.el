@@ -118,10 +118,10 @@
 
 (setq-default visual-line-mode t)
 
-(require 'fff)
-(global-set-key (kbd "C-c f f") #'fff-find-file)
-(global-set-key (kbd "C-c f g") #'fff-grep)
-(global-set-key (kbd "C-c f G") #'fff-grep-fuzzy)
+;; (require 'fff)
+;; (global-set-key (kbd "C-c f f") #'fff-find-file)
+;; (global-set-key (kbd "C-c f g") #'fff-grep)
+;; (global-set-key (kbd "C-c f G") #'fff-grep-fuzzy)
 
 (defun go-repl ()
   "Start gore (REPL) for go-mode"
