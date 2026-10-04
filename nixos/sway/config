@@ -48,7 +48,7 @@ input type:touchpad {
 # output HDMI-A-1 bg /home/dany/dotfiles/nixos/sway/backgrounds/Background_3840x1080.png fill
 output DP-3 resolution 5120x1440@240Hz position 0,0
 
-exec_always sleep 2 && ~/.config/sway/scripts/dynamic_gaps.sh
+# exec_always sleep 2 && ~/.config/sway/scripts/dynamic_gaps.sh
 seat * xcursor_theme Bibata-Modern-Classic 24
 
 ### Input configuration
