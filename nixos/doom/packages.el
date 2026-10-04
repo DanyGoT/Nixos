@@ -58,3 +58,5 @@
 (package! org-inline-pdf)
 (package! protobuf-mode)
 (package! org-fragtog)
+(package! engrave-faces)
+(package! matlab-mode)
