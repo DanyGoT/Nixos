@@ -28,6 +28,10 @@
     description = "Dany";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF4IE3XQ7Uttwzastc750XnOBsM8t7OgznCHWueLWSaK dany@nixos-desktop"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBKKkNkFn7DJFIN4LeWTsEdx2dpP/xIlIK2pZtLSUpdk dany@nixos-laptop"
+    ];
   };
 
   services.getty.autologinUser = "dany";
@@ -226,6 +230,36 @@
   networking.firewall = {
     allowedUDPPorts = [ 41641 ];
     trustedInterfaces = [ "tailscale0" "ztrfya33ih" "zteb4joya6" ];
+  };
+
+  # ===== SSHFS =====
+  programs.ssh.knownHosts = {
+    nixos-desktop.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIArHtfYas1GJif2jAcFwXedMIL8ADhW/N3dxIpGkPtR6";
+    nixos-laptop.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVSAod1Q4/+eMuB4Ld9eRqJqpBKD2r0XjPx5Frec+8Z";
+  };
+
+  system.fsPackages = [ pkgs.sshfs ];
+  fileSystems = let
+    peer = if config.networking.hostName == "nixos-desktop" then "nixos-laptop" else "nixos-desktop";
+  in {
+    "/mnt/${peer}" = {
+      device = "dany@${peer}:/";
+      fsType = "sshfs";
+      options = [
+        "noauto"
+        "x-systemd.automount"
+        "x-systemd.idle-timeout=10min"
+        "x-systemd.mount-timeout=10s"
+        "_netdev"
+        "IdentityFile=/home/dany/.ssh/id_ed25519"
+        "allow_other"
+        "uid=1000"
+        "gid=100"
+        "reconnect"
+        "ServerAliveInterval=15"
+        "ServerAliveCountMax=3"
+      ];
+    };
   };
 
   services.syncthing = {
