@@ -3,6 +3,9 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./media.nix
+    ./caddy.nix
+    ./cloudflared.nix
   ];
   
   networking.hostName = "nixos-desktop";
@@ -15,12 +18,10 @@
     modesetting.enable = true;
     powerManagement.enable = true;
     powerManagement.finegrained = false;
-    open = false;  # Use proprietary driver for better early boot support
+    open = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-
-  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
@@ -42,6 +43,7 @@
     AllowSuspendThenHibernate="no";
   };
 
+  # Fixes tailscaled losinng DNS across hibernate
   powerManagement.resumeCommands = ''
     ${pkgs.systemd}/bin/systemctl try-restart tailscaled.service
   '';
@@ -77,6 +79,13 @@
   services.xserver = {
     enable = true;
 
+    # Minor display fixes
+    displayManager.setupCommands = ''
+      ${pkgs.xrandr}/bin/xrandr --output DP-2 --off || true
+      ${pkgs.xrandr}/bin/xrandr --output DP-2 --mode 5120x1440 --rate 240 \
+        || ${pkgs.xrandr}/bin/xrandr --output DP-2 --auto || true
+    '';
+
     # Disable DPMS to prevent display power-off issues with DisplayPort
     displayManager.sessionCommands = ''
       xset s off
@@ -101,14 +110,16 @@
   services.displayManager.defaultSession = "none+i3";
   services.zerotierone.enable = true;
 
+  # ZeroTier interfaces
+  networking.firewall.interfaces."ztrfya33ih".allowedTCPPorts = [ 25565 8096 ];
+  networking.firewall.interfaces."zteb4joya6".allowedTCPPorts = [ 25565 8096 ];
 
-  # Home TV
   environment.systemPackages = with pkgs; [
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
 
-    xinit  # Provides startx
+    xinit       # Provides startx
     maim        # Screenshots
     flameshot   # Better screenshots
     xclip       # Clipboard for X11
@@ -118,14 +129,17 @@
     spotify
     postman
 
+    prismlauncher
+
     (btop.override { cudaSupport = true; })
   ];
   services.jellyfin = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
   };
   users.groups.media = {};
   users.groups.downloads = {};
   users.users.dany.extraGroups = [ "downloads" "media" ];
+  users.users.dany.linger = true;
   users.users.jellyfin.extraGroups = [ "media" ];
 }
