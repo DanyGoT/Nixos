@@ -151,3 +151,36 @@
 ;; local-vars-hook runs after envrc has applied the flake's PATH/MATLABPATH.
 (add-hook 'matlab-ts-mode-local-vars-hook #'lsp! 'append)
 (add-hook 'matlab-mode-local-vars-hook #'lsp! 'append)
+
+;; Prettier org/markdown: hide markup, reveal it where the cursor is.
+;; Org: handled by (org +pretty) -> org-modern + org-appear.
+(after! org-appear
+  (setq org-appear-autolinks t
+        org-appear-autoentities t
+        org-appear-autosubmarkers t))
+
+;; Heading sizes: clear steps from title down to level 4.
+(custom-set-faces!
+  '(org-document-title :height 1.8 :weight bold)
+  '(org-level-1 :height 1.5 :weight bold)
+  '(org-level-2 :height 1.3 :weight bold)
+  '(org-level-3 :height 1.15 :weight semi-bold)
+  '(org-level-4 :height 1.05 :weight semi-bold))
+
+;; Markdown: hide markup, but show it on the current line.
+(after! markdown-mode
+  ;; Buffer-local var, so set the default; `setopt' runs the face rescaling.
+  (setq-default markdown-hide-markup t)
+  (setopt markdown-header-scaling t
+          markdown-header-scaling-values '(1.6 1.4 1.25 1.15 1.05 1.0)))
+
+(defvar-local +markdown-reveal-ov nil)
+(defun +markdown-reveal-line-h ()
+  "Show hidden markup on the line at point."
+  (unless +markdown-reveal-ov
+    (setq +markdown-reveal-ov (make-overlay 1 1))
+    ;; A non-nil value not in `buffer-invisibility-spec' overrides the markup's.
+    (overlay-put +markdown-reveal-ov 'invisible '+markdown-reveal))
+  (move-overlay +markdown-reveal-ov (line-beginning-position) (1+ (line-end-position))))
+(add-hook! (markdown-mode gfm-mode)
+  (add-hook 'post-command-hook #'+markdown-reveal-line-h nil t))

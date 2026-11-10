@@ -83,3 +83,7 @@ cmds() {
     find "$scripts_dir" -name "$name" -executable -exec {} \;
   fi
 }
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/dany/.local/bin:$PATH"

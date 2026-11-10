@@ -124,6 +124,7 @@
     vscode
     papirus-icon-theme
     kdePackages.okular
+    inputs.grok-bot.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # DevOps
     podman-compose
