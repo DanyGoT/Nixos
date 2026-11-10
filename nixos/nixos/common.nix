@@ -73,8 +73,8 @@
     # CLI tools
     bat
     btop
+    difftastic
     claude-code
-    inputs.herdr.packages.x86_64-linux.default
     opencode
     dust
     eza
@@ -94,6 +94,7 @@
     bluetui
     zip
     unzip
+    bubblewrap
 
     # PDF
     pdf2svg
@@ -156,10 +157,37 @@
   };
 
   # ===== PROGRAMS =====
+  programs.atop = {
+    enable = true;
+    atopacctService.enable = true;
+    atopService.enable = true;
+    atopRotateTimer.enable = true;
+    atopgpu.enable = true;
+    netatop.enable = false; # Didnt work...
+  };
   programs.direnv.enable = true;
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [ libxcb libxkbcommon libGL vulkan-loader wayland ];
+  };
   programs.neovim = { enable = true; defaultEditor = true; };
-  programs.git = { enable = true; config.pull.rebase = true; };
+  programs.git = {
+    enable = true;
+    config = {
+      pull.rebase = true;
+      # nvimdiff: `git difftool` / `git mergetool`
+      diff.tool = "nvimdiff";
+      merge.tool = "nvimdiff";
+      difftool.prompt = false;
+      mergetool.keepBackup = false;
+      # difftastic: `git dft`, `git dlog`, `git dshow`
+      alias = {
+        dft = "-c diff.external='difft --color=always --syntax-highlight=on' diff";
+        dlog = "-c diff.external='difft --color=always --syntax-highlight=on' log -p --ext-diff";
+        dshow = "-c diff.external='difft --color=always --syntax-highlight=on' show --ext-diff";
+      };
+    };
+  };
   programs.thunar = {
     enable = true;
     plugins = with pkgs; [
@@ -229,7 +257,7 @@
   services.tailscale.enable = true;
   networking.firewall = {
     allowedUDPPorts = [ 41641 ];
-    trustedInterfaces = [ "tailscale0" "ztrfya33ih" "zteb4joya6" ];
+    trustedInterfaces = [ "tailscale0" ];
   };
 
   # ===== SSHFS =====
@@ -256,6 +284,7 @@
         "uid=1000"
         "gid=100"
         "reconnect"
+        "ConnectTimeout=5"
         "ServerAliveInterval=15"
         "ServerAliveCountMax=3"
       ];
