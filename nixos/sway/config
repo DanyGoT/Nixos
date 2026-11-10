@@ -23,6 +23,7 @@ exec swayidle -w \
 	timeout 1800 'systemctl suspend' \
 	before-sleep 'swaylock -f -c 000000'
 
+exec gnome-keyring-daemon --start --components=secrets
 exec dms run
 
 input * {
@@ -73,6 +74,7 @@ seat * xcursor_theme Bibata-Modern-Classic 24
 # Select area
     # bindsym Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%F_%T).png | wl-copy
     bindsym Shift+Print exec grim -g "$(slurp)" -t png - | wl-copy -t image/png
+    bindsym $mod+Shift+S exec grim -g "$(slurp)" -t png - | wl-copy -t image/png
 
     # Start a terminal
     bindsym $mod+Return exec $term
